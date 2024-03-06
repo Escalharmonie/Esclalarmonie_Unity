@@ -1,4 +1,4 @@
-﻿namespace Audio.Playlist
+﻿namespace Playlist
 {
     public struct PlaylistSettings
     {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Audio.Playlist
+namespace Playlist
 {
     /// <summary>
     ///     All data for any playlist including: its settings for the mixer, its attack and release timing, etc.

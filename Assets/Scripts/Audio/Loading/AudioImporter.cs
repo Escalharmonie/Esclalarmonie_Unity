@@ -1,4 +1,4 @@
-using Audio.Playlist;
+using Playlist;
 using UnityEngine;
 
 namespace Audio.Loading

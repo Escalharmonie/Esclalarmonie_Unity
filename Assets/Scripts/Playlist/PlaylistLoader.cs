@@ -7,7 +7,7 @@ using Audio.Loading;
 using Audio.Utils;
 using UnityEngine;
 
-namespace Audio.Playlist
+namespace Playlist
 {
     public static class PlaylistLoader
     {
