@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace Audio.Loading
 {
-    
     public class AudioImporter : MonoBehaviour
     {
         [SerializeField] private string ClipPath = "";
@@ -15,8 +14,8 @@ namespace Audio.Loading
 
             if (playlist is null)
                 return;
-            
-            Debug.Log(playlist);    
+
+            Debug.Log(playlist);
 
             var baba = GetComponent<AudioSource>();
 
