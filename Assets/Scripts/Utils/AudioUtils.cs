@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Audio.Loading;
 using UnityEngine;
 
-namespace Audio.Utils
+namespace Utils
 {
     public static class AudioUtils
     {
