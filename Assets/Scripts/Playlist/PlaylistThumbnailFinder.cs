@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Playlist.Models;
+using UI;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Utils;
 
 namespace Playlist
@@ -11,8 +13,9 @@ namespace Playlist
     public class PlaylistThumbnailFinder : MonoBehaviour
     {
         [SerializeField] private string PlaylistDirectoryPath = "";
+        [SerializeField] private ThumbnailManager? Generator;
+        
         // Start is called before the first frame update
-
         private void Start()
         {
             if (string.IsNullOrEmpty(PlaylistDirectoryPath))
@@ -33,12 +36,9 @@ namespace Playlist
 
             foreach (PlaylistThumbnailData thumbnailData in thumbnailDataList) Debug.Log(thumbnailData);
 
-            Texture2D? thumbnail = thumbnailDataList.First().Thumbnail;
-
-            if (thumbnail)
-            {
-                GetComponent<SpriteRenderer>().sprite = Sprite.Create(thumbnail, new Rect(0.0f, 0.0f, thumbnail!.width, thumbnail!.height), new Vector2(0.5f, 0.5f), 100.0f);
-            }
+            Sprite? thumbnail = thumbnailDataList.First().Thumbnail;
+            
+            Generator?.GenerateThumbnails(thumbnailDataList);
         }
 
         private static List<PlaylistThumbnailData> LoadPlaylistThumbnails(DirectoryInfo playlistsDirectory)
@@ -56,7 +56,18 @@ namespace Playlist
                     thumbnailImage = TextureUtils.LoadTextureFromFile(filteredFiles.First());
                 }
 
-                var thumbnail = new PlaylistThumbnailData(directory.Name, directory.FullName, thumbnailImage);
+
+                Sprite? thumbnailSprite = null;
+                if (thumbnailImage != null)
+                {
+                    thumbnailSprite = Sprite.Create(
+                        thumbnailImage,
+                        new Rect(0, 0, thumbnailImage.width, thumbnailImage.height),
+                        new Vector2(0.5f, 0.5f), 100
+                        );
+                }
+
+                var thumbnail = new PlaylistThumbnailData(directory.Name, directory.FullName, thumbnailSprite);
                 thumbnails.Add(thumbnail);
             }
 

@@ -23,13 +23,13 @@ namespace Utils
             foreach (string? type in ValidFiletypes)
                 if (path.EndsWith(type))
                 {
-                    Texture2D texture = null;
+                    Texture2D? texture = null;
                     byte[] fileData;
 
                     if (File.Exists(path))
                     {
                         fileData = File.ReadAllBytes(path);
-                        texture = new Texture2D(2, 2);
+                        texture = new Texture2D(1, 1);
                         texture.LoadImage(fileData); //..this will auto-resize the texture dimensions.
                     }
 

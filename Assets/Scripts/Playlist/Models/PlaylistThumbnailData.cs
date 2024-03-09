@@ -13,9 +13,9 @@ namespace Playlist.Models
 
         public string Path;
 
-        public Texture2D? Thumbnail;
+        public Sprite? Thumbnail;
 
-        public PlaylistThumbnailData(string name, string path, Texture2D? thumbnail)
+        public PlaylistThumbnailData(string name, string path, Sprite? thumbnail)
         {
             Name = name;
             Path = path;
