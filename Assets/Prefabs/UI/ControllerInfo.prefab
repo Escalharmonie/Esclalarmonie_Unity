@@ -633,34 +633,10 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 6640822761690302468}
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6297155990703088024, guid: e72b56a694729254b968d3331c15bdf6, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2061302352475892090}
     - targetCorrespondingSourceObject: {fileID: 7095147192288528893, guid: e72b56a694729254b968d3331c15bdf6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1541665772426265136}
   m_SourcePrefab: {fileID: 100100000, guid: e72b56a694729254b968d3331c15bdf6, type: 3}
---- !u!1 &6039907807486742578 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6297155990703088024, guid: e72b56a694729254b968d3331c15bdf6, type: 3}
-  m_PrefabInstance: {fileID: 338313289380377002}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2061302352475892090
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6039907807486742578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b55a5bc2797d134897a11651e5ac74b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TransitionDuration: 0.5
-  TransitionEasing: 12
-  CanvasFader: {fileID: 1541665772426265136}
-  TextFade: {fileID: 8249317112675424426}
 --- !u!1 &7405862700879214679 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7095147192288528893, guid: e72b56a694729254b968d3331c15bdf6, type: 3}
