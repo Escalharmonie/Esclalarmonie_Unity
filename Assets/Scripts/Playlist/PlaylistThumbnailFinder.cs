@@ -4,9 +4,10 @@ using System.IO;
 using System.Linq;
 using Playlist.Models;
 using UI;
+using UI.Theme;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Utils;
+
 
 namespace Playlist
 {
@@ -34,9 +35,13 @@ namespace Playlist
 
             var thumbnailDataList = LoadPlaylistThumbnails(playlistsDirectory);
 
-            foreach (PlaylistThumbnailData thumbnailData in thumbnailDataList) Debug.Log(thumbnailData);
+            // foreach (PlaylistThumbnailData thumbnailData in thumbnailDataList) Debug.Log(thumbnailData);
 
             Sprite? thumbnail = thumbnailDataList.First().Thumbnail;
+            
+            var palette = new ColorThief.ColorThief();
+            List<ColorThief.QuantizedColor> colors = palette.GetPalette(thumbnail.texture, 6);
+            
             
             Generator?.GenerateThumbnails(thumbnailDataList);
         }

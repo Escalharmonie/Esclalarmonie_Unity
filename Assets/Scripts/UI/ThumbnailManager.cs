@@ -8,7 +8,7 @@ using UnityEngine.UI;
 namespace UI
 {
     using ThumbnailInfo = Tuple<GameObject, PlaylistThumbnailData>;
-    
+
     public class ThumbnailManager : MonoBehaviour
     {
         #region Parameters
@@ -18,49 +18,66 @@ namespace UI
         #endregion
 
         #region Events
-        
+
         public UnityEvent OnThumbnailsLoaded;
 
+        public UnityEvent<PlaylistThumbnailData> OnPlaylistThumbnailClicked;
+
         #endregion
-        
+
         #region Private Members
 
         private List<ThumbnailInfo> thumbnailList = new();
+
+        private ThumbnailInfo? lastThumbnail;
         
         #endregion
-        
+
         public void GenerateThumbnails(List<PlaylistThumbnailData> thumbnailDataList)
         {
-            foreach (var thumbnailData in thumbnailDataList)
-            {
-                // foreach (Transform child in transform)
-                // {
-                //     Destroy(child.gameObject);
-                // }
-                //
-                // thumbnailList.Clear();
-                
-                GameObject thumbnail = Instantiate(ThumbnailPrefab, transform);
-                var visualUpdater = thumbnail.GetComponent<ThumbnailVisualUpdater>();
+            thumbnailList.Clear();
+            foreach (Transform child in transform) Destroy(child.gameObject);
 
-                var currentThumbnail = new ThumbnailInfo(thumbnail,thumbnailData);
-                
+            foreach (PlaylistThumbnailData thumbnailData in thumbnailDataList)
+            {
+                GameObject thumbnail = Instantiate(ThumbnailPrefab, transform);
+
+                ThumbnailVisualUpdater? visualUpdater = thumbnail.GetComponent<ThumbnailVisualUpdater>();
+                var currentThumbnail = new ThumbnailInfo(thumbnail, thumbnailData);
+
                 thumbnailList.Add(currentThumbnail);
-                
-                thumbnail.GetComponent<Button>().onClick.AddListener(() => OnThumbnailClicked(currentThumbnail));
-                
-                
+
+                thumbnail.GetComponent<Button>().onClick.AddListener(() => ThumbnailClicked(currentThumbnail));
+
                 visualUpdater.UpdateVisuals(thumbnailData);
             }
-            
+
             OnThumbnailsLoaded.Invoke();
         }
 
-        private void OnThumbnailClicked(ThumbnailInfo info)
+        private void ThumbnailClicked(ThumbnailInfo info)
         {
-            foreach (ThumbnailInfo? thumbnail in thumbnailList)
+            foreach (var thumbnail in thumbnailList)
             {
-                bool isClickedThumbnail = thumbnail.Item2.Name == info.Item2.Name;
+                bool isClickedThumbnail = thumbnail.Item2.Path == info.Item2.Path;
+                if (isClickedThumbnail)
+                {
+                    Texture2D? thumbnailTexture = thumbnail.Item2.Thumbnail?.texture;
+                    Color? mainColor = null;
+
+                    if (thumbnailTexture is not null)
+                    {
+                        ColorThief.ColorThief dominant = new();
+                        
+                        mainColor = dominant.GetColor(thumbnailTexture).UnityColor;
+                    }
+
+                    if (thumbnail.Item2.Path != lastThumbnail?.Item2.Path)
+                    {
+                        ThemeManager.Instance?.UpdateThemePalette(mainColor, true);
+                        OnPlaylistThumbnailClicked.Invoke(thumbnail.Item2);
+                    }
+                }
 
                 thumbnail.Item1.GetComponent<ThumbnailHighlighter>().IsHighlighted = isClickedThumbnail;
             }

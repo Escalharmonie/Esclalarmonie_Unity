@@ -1,4 +1,5 @@
 using DG.Tweening;
+using UI.Theme;
 using UI.Utils;
 using UnityEngine;
 
@@ -41,7 +42,7 @@ namespace UI
         private void Start()
         {
             float newAlpha = 0f;
-            Color newTextColor = ColorPalette.DefaultPillTextColor;
+            Color newTextColor = ThemeColorPalette.DefaultTextColor;
 
             if (MaterialFader is not null)
             {
@@ -66,7 +67,7 @@ namespace UI
         {
             float newAlpha = _isHighlighted ? 1f : 0f;
             Color newTextColor = _isHighlighted ? 
-                ColorPalette.HighlightedPillTextColor : ColorPalette.DefaultPillTextColor ;
+                ThemeColorPalette.HighlightedTextColor : ThemeColorPalette.DefaultTextColor ;
 
             if (MaterialFader is not null)
             {

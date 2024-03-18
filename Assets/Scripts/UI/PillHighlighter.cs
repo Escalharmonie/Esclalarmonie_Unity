@@ -1,11 +1,13 @@
+using System.Collections;
 using DG.Tweening;
+using UI.Theme;
 using UI.Utils;
 using UnityEngine;
 using Color = UnityEngine.Color;
 
 namespace UI
 {
-    public class Pill : MonoBehaviour
+    public class PillHighlighter : MonoBehaviour
     {
         #region Parameters
         
@@ -17,7 +19,10 @@ namespace UI
 
         #endregion
 
+        public bool Highlighted = false;
+        
         #region Public Members
+
 
         public bool IsHighlighted
         {
@@ -26,6 +31,7 @@ namespace UI
             {
                 _isHighlighted = value;
                 SetPillHighlight();
+                Highlighted = _isHighlighted;
             }
         }
 
@@ -42,7 +48,7 @@ namespace UI
         private void Start()
         {
             float newAlpha = 0f;
-            Color newTextColor = ColorPalette.DefaultPillTextColor;
+            Color newTextColor = ThemeColorPalette.DefaultTextColor;
 
             if (CanvasFader is not null)
             {
@@ -67,7 +73,7 @@ namespace UI
         {
             float newAlpha = _isHighlighted ? 1f : 0f;
             Color newTextColor = _isHighlighted ? 
-                ColorPalette.HighlightedPillTextColor : ColorPalette.DefaultPillTextColor ;
+                ThemeColorPalette.HighlightedTextColor : ThemeColorPalette.DefaultTextColor ;
 
             if (CanvasFader is not null)
             {
@@ -83,7 +89,6 @@ namespace UI
                 TextFade.SetColorEase(newTextColor, TransitionDuration, TransitionEasing);
             }
         }
-
         #endregion
     }
 }

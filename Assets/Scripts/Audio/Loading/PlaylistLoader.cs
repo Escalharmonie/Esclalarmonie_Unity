@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Audio.Loading;
+using Playlist;
 using Playlist.Models;
 using UnityEngine;
 using Utils;
 
-namespace Playlist
+namespace Audio.Loading
 {
     public static class PlaylistLoader
     {
