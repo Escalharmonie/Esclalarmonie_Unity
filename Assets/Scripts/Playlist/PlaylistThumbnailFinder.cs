@@ -4,21 +4,42 @@ using System.IO;
 using System.Linq;
 using Playlist.Models;
 using UI;
-using UI.Theme;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Utils;
-
 
 namespace Playlist
 {
     public class PlaylistThumbnailFinder : MonoBehaviour
     {
-        [SerializeField] private string PlaylistDirectoryPath = "";
+        [FormerlySerializedAs("DebugPlaylistDirectoryPath")] [SerializeField]
+        private string PlaylistDirectoryPath = "";
+
         [SerializeField] private ThumbnailManager? Generator;
-        
+
         // Start is called before the first frame update
         private void Start()
         {
+#if UNITY_EDITOR
+
+            if (string.IsNullOrEmpty(PlaylistDirectoryPath))
+            {
+                Debug.Log("Path is empty");
+                return;
+            }
+
+            if (!Directory.Exists(PlaylistDirectoryPath))
+            {
+                Debug.Log("Path is invalid directory");
+                return;
+            }
+            
+#endif
+#if UNITY_STANDALONE
+
+            PlaylistDirectoryPath = Directory.GetCurrentDirectory() + "/Playlists";
+#endif
+
             if (string.IsNullOrEmpty(PlaylistDirectoryPath))
             {
                 Debug.Log("Path is empty");
@@ -31,18 +52,17 @@ namespace Playlist
                 return;
             }
 
-            var playlistsDirectory = new DirectoryInfo(PlaylistDirectoryPath);
+            DirectoryInfo playlistsDirectory = new DirectoryInfo(PlaylistDirectoryPath);
 
             var thumbnailDataList = LoadPlaylistThumbnails(playlistsDirectory);
 
             // foreach (PlaylistThumbnailData thumbnailData in thumbnailDataList) Debug.Log(thumbnailData);
 
             Sprite? thumbnail = thumbnailDataList.First().Thumbnail;
-            
-            var palette = new ColorThief.ColorThief();
-            List<ColorThief.QuantizedColor> colors = palette.GetPalette(thumbnail.texture, 6);
-            
-            
+
+            ColorThief.ColorThief palette = new ColorThief.ColorThief();
+            var colors = palette.GetPalette(thumbnail.texture, 6);
+
             Generator?.GenerateThumbnails(thumbnailDataList);
         }
 
@@ -61,7 +81,6 @@ namespace Playlist
                     thumbnailImage = TextureUtils.LoadTextureFromFile(filteredFiles.First());
                 }
 
-
                 Sprite? thumbnailSprite = null;
                 if (thumbnailImage != null)
                 {
@@ -69,10 +88,11 @@ namespace Playlist
                         thumbnailImage,
                         new Rect(0, 0, thumbnailImage.width, thumbnailImage.height),
                         new Vector2(0.5f, 0.5f), 100
-                        );
+                    );
                 }
 
-                var thumbnail = new PlaylistThumbnailData(directory.Name, directory.FullName, thumbnailSprite);
+                PlaylistThumbnailData thumbnail =
+                    new PlaylistThumbnailData(directory.Name, directory.FullName, thumbnailSprite);
                 thumbnails.Add(thumbnail);
             }
 

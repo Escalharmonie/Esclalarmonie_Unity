@@ -1,9 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UI;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class KeyPill : MonoBehaviour

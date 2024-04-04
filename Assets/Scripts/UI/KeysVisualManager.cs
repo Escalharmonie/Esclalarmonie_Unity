@@ -9,7 +9,7 @@ namespace UI
         [SerializeField] private GameObject KeyPillPrefab;
 
         private List<GameObject> keys = new();
-
+        
         public void UpdateKeyVisuals(List<bool> data)
         {
             int currentSize = keys.Count;
@@ -17,21 +17,25 @@ namespace UI
 
             RegenerateVisuals(currentSize, newSize);
 
-            StartCoroutine(SetVisuals(data));
+            StartCoroutine(SetVisuals(data, currentSize));
         }
 
-        private IEnumerator SetVisuals(List<bool> data)
+        private IEnumerator SetVisuals(List<bool> newData, int currentSize)
         {
             yield return 1f;
-            ThemeManager.Instance?.UpdateThemePalette(null, false);
-            
-            for (int i = 0; i < data.Count; i++)
-            {
-                keys[i].GetComponent<PillHighlighter>().IsHighlighted = data[i];
-            }
 
+
+            if (newData.Count != currentSize)
+            {
+                ThemeManager.Instance?.UpdateThemePalette(ThemeManager.currentColor, false);
+            }
+            
+            for (int i = 0; i < newData.Count; i++)
+            {
+                keys[i].GetComponent<PillHighlighter>().IsHighlighted = newData[i];
+            }   
         }
-        
+
         private void RegenerateVisuals(int currentSize, int newSize)
         {
             if (newSize == 0 && newSize != currentSize)

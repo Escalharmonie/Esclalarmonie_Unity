@@ -8,6 +8,8 @@ public class ThemeManager : MonoBehaviour
 
     public static ThemeManager? Instance { get; private set; }
 
+    public static Color? currentColor { get; private set; } = null;
+
     private void Awake()
     {
         // If there is an instance, and it's not me, delete myself.
@@ -42,6 +44,8 @@ public class ThemeManager : MonoBehaviour
                 RotateHue(ThemeColorPalette.DefaultColoredDiffuseColor, (Color)newColor);
             ThemeColorPalette.CurrentShadowColor =
                 RotateHue(ThemeColorPalette.DefaultColoredShadowColor, (Color)newColor);
+
+            currentColor = newColor;
         }
         else
         {
@@ -50,7 +54,7 @@ public class ThemeManager : MonoBehaviour
             ThemeColorPalette.CurrentDiffuseColor = ThemeColorPalette.DefaultMissingDiffuseColor;
             ThemeColorPalette.CurrentShadowColor = ThemeColorPalette.DefaultMissingShadowColor;
         }
-
+        
         OnThemeUpdated.Invoke(ease);
     }
 
